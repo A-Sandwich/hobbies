@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}All Games{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1 class="title">Games</h1>
+        <h2 class="subtitle">coming out soon!</h2>
+    </div>
+    <br>
+    <div class="columns is-vcentered">
+        <table class="table container">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Release Date</th>
+                </tr>
+            </thead>
+            {% for game in games %}
+                <tr>
+                    <th><a href="/games/{{game.id}}">{{game.title}}</a></th>
+                    <th>{{game.release_date}}</th>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}

@@ -1,5 +1,14 @@
+from django.forms import ModelForm, DateInput
 from django import forms
+from .models import Game
 
-class GameForm(forms.Form):
-    title = forms.CharField(label='Title', max_length=100)
-    release_date = forms.DateField(label='Release Date')
+class DateInput(forms.DateInput):
+    input_type = 'date'
+
+class GameForm(ModelForm):
+    class Meta:
+        model = Game
+        fields = ['title', 'release_date']
+        widgets = {
+            'release_date' : DateInput()
+        }
