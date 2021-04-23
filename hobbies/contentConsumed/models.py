@@ -7,3 +7,6 @@ class Game(models.Model):
 
     def __str__(self):
         return self.title
+
+class OwnedGame(models.Model):
+    pass

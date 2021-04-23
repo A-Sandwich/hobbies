@@ -12,8 +12,9 @@ def all(request):
 def new(request):
     if request.method == 'POST':
         game_form = GameForm(request.POST)
-        game = game_form.save()
-        return render(request, 'new.html', {'form' : GameForm(instance=game)})
+        game_form.save()
+        games = Game.objects.order_by('-release_date')
+        return render(request, 'all.html', {'games': games})
     return render(request, 'new.html', {'form': GameForm()})
 
 def detail(request, game_id):
