@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse, redirect
 from .models import Game, OwnedGame
 from .forms import GameForm, ObtainGameForm
 
@@ -34,9 +34,5 @@ def obtain(request):
         ownedGame.game = game
         ownedGame.user = request.user
         ownedGame.save()
-
-    #just outputting this for now, will delete:
-    for g in allOwnedGames:
-        result += str(g) +", "
     
-    return HttpResponse(result)
+    return redirect('games')
