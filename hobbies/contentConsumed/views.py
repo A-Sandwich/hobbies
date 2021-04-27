@@ -17,7 +17,7 @@ def new(request):
     if request.method == 'POST':
         game_form = GameForm(request.POST)
         game = game_form.save()
-        return render(request, 'new.html', {'form' : GameForm(instance=game)})
+        return redirect('games')
     return render(request, 'new.html', {'form': GameForm()})
 
 def detail(request, game_id):
@@ -34,5 +34,4 @@ def obtain(request):
         ownedGame.game = game
         ownedGame.user = request.user
         ownedGame.save()
-    
     return redirect('games')
