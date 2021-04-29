@@ -6,7 +6,7 @@ def index(request):
     return HttpResponse("Hello World!!")
 
 def all(request):
-    games = Game.objects.order_by('-release_date')
+    games = Game.objects.order_by('release_date')
     owned_games = OwnedGame.objects.select_related('game').filter(user=request.user)
     for game in games:
         if owned_games.filter(game=game).exists():
