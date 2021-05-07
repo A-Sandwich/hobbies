@@ -6,13 +6,14 @@ class ConsolePlatforms(models.Model):
     name = models.CharField(max_length=50)
 
     def __str__(self):
-        return name
+        return self.name
 
 class Game(models.Model):
     title = models.CharField(max_length=500)
     pub_date = models.DateField('date published', auto_now_add=True)
     release_date = models.DateField(null=True)
     console_platforms = models.ManyToManyField(ConsolePlatforms)
+    owned = False
 
     def __str__(self):
         return self.title
