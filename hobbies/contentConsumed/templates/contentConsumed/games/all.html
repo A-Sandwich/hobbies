@@ -34,6 +34,9 @@
                         {% else %}
                             <form method="post" action="/games/obtain/">
                                 {% csrf_token %}
+                                {% for console in consoles %}
+                                    <input type="checkbox" name="consoles" value={{console.id}}>{{console.name}}</input><br/>
+                                {% endfor %}
                                 <button type="submit" name="game_id" value="{{game.id}}" class="button">Obtain</button>
                             </form>
                         {% endif %}

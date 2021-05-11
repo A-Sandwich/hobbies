@@ -1,6 +1,6 @@
 from django.forms import ModelForm, DateInput
 from django import forms
-from .models import Game, OwnedGame, ConsolePlatforms
+from .models import Game, OwnedGame, ConsolePlatform
 
 class DateInput(forms.DateInput):
     input_type = 'date'
@@ -15,7 +15,7 @@ class GameForm(ModelForm):
 
 class ConsolePlatformForm(ModelForm):
     class Meta:
-        model = ConsolePlatforms
+        model = ConsolePlatform
         fields = ['name']
 
 class ObtainGameForm(ModelForm):
