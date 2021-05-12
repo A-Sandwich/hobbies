@@ -8,11 +8,10 @@ def index(request):
 def all_games(request):
     games = Game.objects.order_by('release_date')
     owned_games = OwnedGame.objects.select_related('game').filter(user=request.user)
-    consoles = ConsolePlatform.objects.all()
     for game in games:
         if owned_games.filter(game=game).exists():
             game.owned = True
-    return render(request, 'games/all.html', {'games': games, 'consoles': consoles, 'form' : ObtainGameForm()})
+    return render(request, 'games/all.html', {'games': games, 'form' : ObtainGameForm()})
 
 def new_game(request):
     if request.method == 'POST':
