@@ -1,10 +1,12 @@
-from django.shortcuts import render, HttpResponse, redirect
+from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from .models import Game, OwnedGame, ConsolePlatform
 from .forms import GameForm, ObtainGameForm, ConsolePlatformForm
+from django.contrib.auth.decorators import login_required
 
 def index(request):
     return HttpResponse("Hello World!!")
 
+@login_required
 def all_games(request):
     games = Game.objects.order_by('-release_date')
     owned_games = OwnedGame.objects.select_related('game').filter(user=request.user)
@@ -13,17 +15,20 @@ def all_games(request):
             game.owned = True
     return render(request, 'games/all.html', {'games': games, 'form' : ObtainGameForm()})
 
-def new_game(request):
+@login_required
+def game_create(request):
     if request.method == 'POST':
         game_form = GameForm(request.POST)
         game = game_form.save()
         return redirect('games')
     return render(request, 'games/new.html', {'form': GameForm()})
 
+@login_required
 def detail_game(request, game_id):
     game = Game.objects.get(pk=game_id)
     return render(request, 'games/detail.html', {'game': game})
 
+@login_required
 def obtain_game(request):
     game = Game.objects.get(pk=request.POST['game_id'])
     allOwnedGames = OwnedGame.objects.filter(user=request.user)
@@ -39,9 +44,22 @@ def obtain_game(request):
             ownedGame.console_platforms.add(int(console_id))
     return redirect('games')
 
-def new_console_platform(request):
+@login_required
+def console_platform_create(request):
     if request.method == 'POST':
         console_platform_form = ConsolePlatformForm(request.POST)
         console = console_platform_form.save()
         return redirect('games')
     return render(request, 'console_platforms/new.html', {'form': ConsolePlatformForm()})
+
+@login_required
+def console_platform_update(request, pk):
+    console = get_object_or_404(ConsolePlatform, pk=pk)
+    if request.method == 'POST':
+        ConsolePlatformForm(instance=console, data=request.POST).save()
+        return redirect('games')
+    form = ConsolePlatformForm(instance=console)
+    return render(request, 'console_platforms/update.html', {
+        'object': console,
+        'form': form,
+    })

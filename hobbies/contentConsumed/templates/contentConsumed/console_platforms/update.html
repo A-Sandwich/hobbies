@@ -1,0 +1,6 @@
+<h2>Update {{console_platform.name}}🎮</h2>
+<form method="post">
+  {% csrf_token %}
+  {{ form }}
+  <button type="submit" value="Submit">Save</button>
+</form>
