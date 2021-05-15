@@ -3,9 +3,22 @@
 {% block title %}All Games{% endblock %}
 
 {% block content %}
-    <a href="/games/all">All Games</a>
-    <div>
-        <p>{{game.title}}</p>
-        <p>{{game.release_date}}</p>
+    <div class="container">
+        <div>
+            <div class="columns">
+                <div class="column">
+                    <h1 class="title">{{game.title}}</h1>
+                    <h2 class="subtitle">Releases on <b>{{game.release_date}}</b></h2>
+                </div>
+                <div class="column">
+                    <a class="button" href="/games/all">All Games</a>
+                    <a class="button" href="/games/update/{{game.id}}">Edit</a>
+                </div>
+            </div>
+            <h3 class="subtitle">Available on</h3>
+            {% for console in game.console_platforms.all %}
+                <span class="tag">{{console}}</span>
+            {% endfor %}
+        </div>
     </div>
 {% endblock %}

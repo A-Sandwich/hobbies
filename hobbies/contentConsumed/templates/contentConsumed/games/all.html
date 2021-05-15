@@ -26,13 +26,13 @@
             </thead>
             {% for game in games %}
                 <tr>
-                    <th><a href="/games/{{game.id}}">{{game.title}}</a></th>
+                    <th><a href="{% url 'game_detail' pk=game.id %}">{{game.title}}</a></th>
                     <th>{{game.release_date}}</th>
                     <th>
                         {% if game.owned %}
                             Already owned
                         {% else %}
-                            <form method="post" action="/games/obtain/">
+                            <form method="post" action="{% url 'obtain_game' %}">
                                 {% csrf_token %}
                                 {% for console in game.console_platforms.all %}
                                     <input type="checkbox" name="consoles" value={{console.id}}>{{console.name}}</input><br/>

@@ -24,8 +24,20 @@ def game_create(request):
     return render(request, 'games/new.html', {'form': GameForm()})
 
 @login_required
-def detail_game(request, game_id):
-    game = Game.objects.get(pk=game_id)
+def game_update(request, pk):
+    game = get_object_or_404(Game, pk=pk)
+    if request.method == 'POST':
+        GameForm(instance=game, data=request.POST).save()
+        return redirect('game_detail', pk=game.id)
+    form = GameForm(instance=game)
+    return render(request, 'games/update.html', {
+        'object': game,
+        'form': form,
+    })
+
+@login_required
+def game_detail(request, pk):
+    game = Game.objects.get(pk=pk)
     return render(request, 'games/detail.html', {'game': game})
 
 @login_required
