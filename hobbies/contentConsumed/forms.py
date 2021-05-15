@@ -16,7 +16,7 @@ class GameForm(ModelForm):
 class ConsolePlatformForm(ModelForm):
     class Meta:
         model = ConsolePlatform
-        fields = ['name']
+        fields = ['name', 'short_name', 'tag_color']
 
 class ObtainGameForm(ModelForm):
     class Meta:
