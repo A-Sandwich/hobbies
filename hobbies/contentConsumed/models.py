@@ -6,6 +6,23 @@ class ConsolePlatform(models.Model):
     name = models.CharField(max_length=50)
     short_name = models.CharField(max_length=10, null=True)
     tag_color = models.CharField(max_length=10, null=True)
+ 
+    # this returns bulma specific tag colors
+    def tag_class(self):
+        if not self.tag_color:
+            return
+
+        tag_color = self.tag_color.lower()
+        if tag_color == 'red':
+            return 'is-danger'
+        elif tag_color == 'green':
+            return 'is-success'
+        elif tag_color == 'blue':
+            return 'is-info'
+        elif tag_color == 'white':
+            return 'is-white'
+        else:
+            return ''
 
     def __str__(self):
         return self.name
@@ -27,4 +44,3 @@ class OwnedGame(models.Model):
 
     def __str__(self):
         return str(self.user) + " Owns " + str(self.game)
-

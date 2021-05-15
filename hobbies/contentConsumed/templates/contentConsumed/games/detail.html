@@ -17,7 +17,7 @@
             </div>
             <h3 class="subtitle">Available on</h3>
             {% for console in game.console_platforms.all %}
-                <span class="tag">{{console}}</span>
+                <span class="tag {{console.tag_class}}">{{console}}</span>
             {% endfor %}
         </div>
     </div>
