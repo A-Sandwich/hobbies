@@ -43,17 +43,8 @@ def game_detail(request, pk):
 @login_required
 def obtain_game(request):
     game = Game.objects.get(pk=request.POST['game_id'])
-    allOwnedGames = OwnedGame.objects.filter(user=request.user)
-    alreadyOwned = allOwnedGames.filter(user=request.user, game=game).exists()
-    consoles = request.POST.getlist('consoles')
-    result = ""
-    if not alreadyOwned:
-        ownedGame = OwnedGame()
-        ownedGame.game = game
-        ownedGame.user = request.user
-        ownedGame.save()
-        for console_id in consoles:
-            ownedGame.console_platforms.add(int(console_id))
+    is_obtaining = request.POST.get('remove') is None
+    OwnedGame.toggle_obtain(game, request.user, request.POST.getlist('consoles'), is_obtaining)
     return redirect('games')
 
 @login_required

@@ -44,3 +44,19 @@ class OwnedGame(models.Model):
 
     def __str__(self):
         return str(self.user) + " Owns " + str(self.game)
+    
+    @staticmethod
+    def toggle_obtain(game, user, consoles, is_obtaining):
+        ownedGame = OwnedGame.objects.filter(user=user).filter(user=user, game=game)
+        alreadyOwned = ownedGame.exists()
+        if alreadyOwned and not is_obtaining:
+            ownedGame.delete()
+        else:
+            if not alreadyOwned:
+                ownedGame = OwnedGame()
+                ownedGame.game = game
+                ownedGame.user = user
+                ownedGame.save()
+                # todo validate consoles
+                for console_id in consoles:
+                    ownedGame.console_platforms.add(int(console_id))

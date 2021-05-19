@@ -29,17 +29,18 @@
                     <th><a href="{% url 'game_detail' pk=game.id %}">{{game.title}}</a></th>
                     <th>{{game.release_date}}</th>
                     <th>
-                        {% if game.owned %}
-                            Already owned
-                        {% else %}
-                            <form method="post" action="{% url 'obtain_game' %}">
-                                {% csrf_token %}
+                        <form method="post" action="{% url 'obtain_game' %}">
+                            {% csrf_token %}
+                            {% if game.owned %}
+                                <input type="hidden" name="remove" value=true></input>
+                                <button type="submit" name="game_id" value="{{game.id}}" class="button is-danger">Remove Ownership</button>
+                            {% else %}
                                 {% for console in game.console_platforms.all %}
                                     <input type="checkbox" name="consoles" value={{console.id}}>{{console.name}}</input><br/>
                                 {% endfor %}
-                                <button type="submit" name="game_id" value="{{game.id}}" class="button">Obtain</button>
-                            </form>
-                        {% endif %}
+                                <button type="submit" name="game_id" value="{{game.id}}" class="button is-primary">Obtain</button>
+                            {% endif %}
+                        </form>
                     </th>
                 </tr>
             {% endfor %}
