@@ -1,14 +1,17 @@
 from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from .models import Game, OwnedGame, ConsolePlatform
 from .forms import GameForm, ObtainGameForm, ConsolePlatformForm
+from hobbies.utilities import ViewUtility
 from django.contrib.auth.decorators import login_required
 
 def index(request):
     return HttpResponse("Hello World!!")
 
 @login_required
-def all_games(request):
-    games = Game.objects.order_by('-release_date')
+def all_games(request, afield='release_date'):
+    sort_field = request.GET.get('field') if request.GET.get('field') else 'release_date'
+    direction = ViewUtility.get_direction(request.GET.get('direction'))
+    games = Game.objects.order_by(direction + sort_field)
     owned_games = OwnedGame.objects.select_related('game').filter(user=request.user)
     for game in games:
         if owned_games.filter(game=game).exists():
