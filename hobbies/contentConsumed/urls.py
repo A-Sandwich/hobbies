@@ -14,4 +14,7 @@ urlpatterns = [
     # Console CRUD
     path('new_console/', views.console_platform_create, name='console_create'),
     path('console_update/<int:pk>/', views.console_platform_update, name='console_update'),
+
+    # OwnedGame
+    path('owned_games', views.owned_game_get, name="owned_games"),
 ]
