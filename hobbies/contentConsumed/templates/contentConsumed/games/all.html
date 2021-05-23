@@ -2,12 +2,18 @@
 
 {% block title %}All Games{% endblock %}
 
+{% block navbar_links %}
+    <div class="buttons">
+        <a href="{% url 'all_games' %}" class="navbar-item">All Games</a>
+    </div>
+{% endblock %}
+
 {% block content %}
     <div class="container">
         <div class="columns">
             <div class="column is-two-thirds">
-                <h1 class="title">Games</h1>
-                <h2 class="subtitle">coming out soon!</h2>
+                <h1 class="title">{{title}}</h1>
+                <h2 class="subtitle">{{subtitle}}</h2>
             </div>
             <div class="column">
                 <a href="{% url 'game_create' %}"><button class="button is-primary">Add game</button></a>
@@ -31,7 +37,7 @@
                     <th>
                         <form method="post" action="{% url 'obtain_game' %}">
                             {% csrf_token %}
-                            {% if game.owned %}
+                            {% if game.owned or all_owned %}
                                 <input type="hidden" name="remove" value=true></input>
                                 <button type="submit" name="game_id" value="{{game.id}}" class="button is-danger">Remove Ownership</button>
                             {% else %}

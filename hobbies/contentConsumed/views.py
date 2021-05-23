@@ -16,7 +16,7 @@ def all_games(request, afield='release_date'):
     for game in games:
         if owned_games.filter(game=game).exists():
             game.owned = True
-    return render(request, 'games/all.html', {'games': games, 'form' : ObtainGameForm()})
+    return render(request, 'games/all.html', {'games': games, 'title': 'All Games', 'subtitle': 'coming out soon!'})
 
 @login_required
 def game_create(request):
@@ -73,9 +73,5 @@ def console_platform_update(request, pk):
 @login_required
 def owned_game_get(request):
     games = Game.objects.filter(ownedgame__user = request.user)
-    for game in games:
-        game.owned = True
-        # todo find a way that I won't need to do this
     # todo I need to be able to change the redirect for the obtain form
-    # todo I need to be able to change the title of the games/all.html form
-    return render(request, 'games/all.html', {'games': games, 'form' : ObtainGameForm()})
+    return render(request, 'games/all.html', {'games': games, 'title': 'Owned Games', 'subtitle': 'Nice Collection!', 'all_owned': True})

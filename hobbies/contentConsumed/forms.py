@@ -18,6 +18,7 @@ class ConsolePlatformForm(ModelForm):
         model = ConsolePlatform
         fields = ['name', 'short_name', 'tag_color']
 
+# todo fix this so it can be used in the game/all.html template
 class ObtainGameForm(ModelForm):
     class Meta:
         model = OwnedGame

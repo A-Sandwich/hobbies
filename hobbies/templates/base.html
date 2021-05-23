@@ -11,6 +11,8 @@
   {% block header %}
     <div class="navbar" role="navigation" aria-label="main navigation">
       {% if user.is_authenticated %}
+        {% block navbar_links %}
+        {% endblock %}
         <div class="navbar-end">
           <div class="navbar-item">
             <div class="buttons">
