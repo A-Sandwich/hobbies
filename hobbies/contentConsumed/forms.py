@@ -22,4 +22,4 @@ class ConsolePlatformForm(ModelForm):
 class ObtainGameForm(ModelForm):
     class Meta:
         model = OwnedGame
-        fields = ['game']
+        fields = ['game', 'console_platforms']

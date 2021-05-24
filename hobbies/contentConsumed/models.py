@@ -32,7 +32,7 @@ class Game(models.Model):
     pub_date = models.DateField('date published', auto_now_add=True)
     release_date = models.DateField(null=True)
     console_platforms = models.ManyToManyField(ConsolePlatform)
-    owned = False
+    owned = None
 
     def __str__(self):
         return self.title

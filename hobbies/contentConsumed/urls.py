@@ -16,5 +16,6 @@ urlpatterns = [
     path('console_update/<int:pk>/', views.console_platform_update, name='console_update'),
 
     # OwnedGame
-    path('owned_games', views.owned_game_get, name="owned_games"),
+    path('owned_games', views.owned_games_get, name="owned_games"),
+    path('owned_game/update/<int:pk>/', views.owned_game_update, name="owned_game_update"),
 ]

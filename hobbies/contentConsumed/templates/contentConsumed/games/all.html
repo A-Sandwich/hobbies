@@ -40,11 +40,17 @@
                             {% if game.owned or all_owned %}
                                 <input type="hidden" name="remove" value=true></input>
                                 <button type="submit" name="game_id" value="{{game.id}}" class="button is-danger">Remove Ownership</button>
+                                <div class="buttons">
+                                    <a href="{% url 'owned_game_update' pk=game.owned %}">Edit Ownership</a>
+                                </div>
                             {% else %}
                                 {% for console in game.console_platforms.all %}
                                     <input type="checkbox" name="consoles" value={{console.id}}>{{console.name}}</input><br/>
                                 {% endfor %}
                                 <button type="submit" name="game_id" value="{{game.id}}" class="button is-primary">Obtain</button>
+                            {% endif %}
+                            {% if redirect_url %}
+                                <input type="hidden" name="redirect_url" value="{{redirect_url}}"></input>
                             {% endif %}
                         </form>
                     </th>

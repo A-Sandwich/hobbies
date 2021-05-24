@@ -14,8 +14,9 @@ def all_games(request, afield='release_date'):
     games = Game.objects.order_by(direction + sort_field)
     owned_games = OwnedGame.objects.select_related('game').filter(user=request.user)
     for game in games:
-        if owned_games.filter(game=game).exists():
-            game.owned = True
+        owned_game = owned_games.filter(game=game)
+        if owned_game.exists():
+            game.owned = owned_game[0].id
     return render(request, 'games/all.html', {'games': games, 'title': 'All Games', 'subtitle': 'coming out soon!'})
 
 @login_required
@@ -45,10 +46,11 @@ def game_detail(request, pk):
 
 @login_required
 def obtain_game(request):
-    game = Game.objects.get(pk=request.POST['game_id'])
+    game = Game.objects.get(pk=request.POST.get('game_id'))
     is_obtaining = request.POST.get('remove') is None
     OwnedGame.toggle_obtain(game, request.user, request.POST.getlist('consoles'), is_obtaining)
-    return redirect('games')
+    redirect_url = request.POST.get('redirect_url') if request.POST.get('redirect_url') else 'games'
+    return redirect(redirect_url)
 
 @login_required
 def console_platform_create(request):
@@ -71,7 +73,19 @@ def console_platform_update(request, pk):
     })
 
 @login_required
-def owned_game_get(request):
+def owned_games_get(request):
     games = Game.objects.filter(ownedgame__user = request.user)
-    # todo I need to be able to change the redirect for the obtain form
-    return render(request, 'games/all.html', {'games': games, 'title': 'Owned Games', 'subtitle': 'Nice Collection!', 'all_owned': True})
+    # todo make the template not require so many args   
+    return render(request, 'games/all.html', {'games': games, 'title': 'Owned Games', 'subtitle': 'Nice Collection!', 'all_owned': True, 'redirect_url': 'owned_games'})
+
+@login_required
+def owned_game_update(request, pk):
+    owned_game = get_object_or_404(OwnedGame, pk=pk)
+    if request.method == 'POST':
+        OwnedGame(instance=owned_game, data=request.POST).save()
+        return redirect('owned_games')
+    form = ObtainGameForm(instance=owned_game)
+    return render(request, 'owned_game/update.html', {
+        'object': owned_game,
+        'form': form,
+    })
