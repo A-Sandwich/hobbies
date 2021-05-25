@@ -23,3 +23,10 @@ class ObtainGameForm(ModelForm):
     class Meta:
         model = OwnedGame
         fields = ['game', 'console_platforms']
+
+    def __init__(self, *args, **kwargs):
+        # todo pass in the conole platforms so we aren't running a query in the forms class
+        super(ObtainGameForm, self).__init__(*args, **kwargs)
+        if self.instance:
+            self.fields['console_platforms'].queryset = ConsolePlatform.objects.filter(
+                    game=self.instance.game)
