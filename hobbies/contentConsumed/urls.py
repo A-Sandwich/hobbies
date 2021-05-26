@@ -4,6 +4,7 @@ from . import views
 urlpatterns = [
     path('', views.all_games, name="games"),
     path('all', views.all_games, name="all_games"),
+    path('releasing_soon', views.games_releasing_soon, name="games_releasing_soon"),
 
     # Game CRUD
     path('create/', views.game_create, name="game_create"),

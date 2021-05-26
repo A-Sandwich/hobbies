@@ -1,23 +1,21 @@
 from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from .models import Game, OwnedGame, ConsolePlatform
 from .forms import GameForm, ObtainGameForm, ConsolePlatformForm
-from hobbies.utilities import ViewUtility
+from .utilities import ViewUtility
 from django.contrib.auth.decorators import login_required
+from datetime import date
 
 def index(request):
     return HttpResponse("Hello World!!")
 
 @login_required
-def all_games(request, afield='release_date'):
-    sort_field = request.GET.get('field') if request.GET.get('field') else 'release_date'
-    direction = ViewUtility.get_direction(request.GET.get('direction'))
-    games = Game.objects.order_by(direction + sort_field)
-    owned_games = OwnedGame.objects.select_related('game').filter(user=request.user)
-    for game in games:
-        owned_game = owned_games.filter(game=game)
-        if owned_game.exists():
-            game.owned = owned_game[0].id
-    return render(request, 'games/all.html', {'games': games, 'title': 'All Games', 'subtitle': 'coming out soon!'})
+def all_games(request):
+    games = ViewUtility.get_games_for_list(request.GET.get('field'), request.GET.get('direction'), request.user)
+    return render(request, 'games/all.html', {'games': games, 'title': 'All Games', 'subtitle': ''})
+
+def games_releasing_soon(request):
+    games = ViewUtility.get_games_for_list(request.GET.get('field'), request.GET.get('direction'), request.user, date.today())
+    return render(request, 'games/releasing_soon.html', {'games': games, 'title': 'Games Releasing', 'subtitle': 'Out soon!'})
 
 @login_required
 def game_create(request):
