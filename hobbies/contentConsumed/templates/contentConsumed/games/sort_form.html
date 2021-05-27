@@ -1,0 +1,14 @@
+{% block sort_form %}
+  <form method="post">
+    {% csrf_token %}
+    <select name="field" id="sort_field">
+      <option value="title">Title</option>
+      <option value="release_date">Release Date</option>
+    </select>
+    <select name="direction" id="direction">
+        <option value="ascending">Ascrending</option>
+        <option value="descending">Decending</option>
+    </select>
+    <button type="submit" name="sort_request" value="sort_request" class="button">Sort</button>
+  </form>
+{% endblock %}

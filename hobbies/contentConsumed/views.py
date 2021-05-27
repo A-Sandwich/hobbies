@@ -10,8 +10,13 @@ def index(request):
 
 @login_required
 def all_games(request):
-    games = ViewUtility.get_games_for_list(request.GET.get('field'), request.GET.get('direction'), request.user)
-    return render(request, 'games/all.html', {'games': games, 'title': 'All Games', 'subtitle': ''})
+    field = None
+    direction = None
+    if request.method == 'POST':
+        field = request.POST.get('field')
+        direction = request.POST.get('direction')
+    games = ViewUtility.get_games_for_list(field, direction, request.user)
+    return render(request, 'games/all.html', {'games': games, 'title': 'All Games', 'subtitle': '', 'sort_fields': ViewUtility.get_sort_fields()})
 
 def games_releasing_soon(request):
     games = ViewUtility.get_games_for_list(request.GET.get('field'), request.GET.get('direction'), request.user, date.today())

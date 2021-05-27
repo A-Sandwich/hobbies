@@ -2,10 +2,10 @@ from .models import Game, OwnedGame
 
 class ViewUtility:
     @staticmethod
-    def get_direction(direction, default='desc'):
+    def get_direction(direction, default='descending'):
         direction = default if not direction else direction
         # '-' is specific to django query order
-        return '-' if direction.lower() == 'desc' else ''
+        return '-' if direction.lower() == 'descending' else ''
 
     @staticmethod
     def get_games_for_list(sort_field, direction, user, date=None):
@@ -20,3 +20,10 @@ class ViewUtility:
             if owned_game.exists():
                 game.owned = owned_game[0].id
         return games
+    
+    @staticmethod
+    def get_sort_fields():
+        return [
+            "title",
+            "release_date",
+        ]
