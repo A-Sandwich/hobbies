@@ -12,11 +12,13 @@ def index(request):
 def all_games(request):
     field = None
     direction = None
+    page = 0
     if request.method == 'POST':
         field = request.POST.get('field')
         direction = request.POST.get('direction')
-    games = ViewUtility.get_games_for_list(field, direction, request.user)
-    return render(request, 'games/all.html', {'games': games, 'title': 'All Games', 'subtitle': '', 'sort_fields': ViewUtility.get_sort_fields()})
+        page = request.POST.get('page')
+    paginated_games = ViewUtility.get_games_for_list(field, direction, request.user)
+    return render(request, 'games/all.html', {'games': paginated_games.get_page(page), 'title': 'All Games', 'subtitle': '', 'sort_fields': ViewUtility.get_sort_fields()})
 
 def games_releasing_soon(request):
     games = ViewUtility.get_games_for_list(request.GET.get('field'), request.GET.get('direction'), request.user, date.today())

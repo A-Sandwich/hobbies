@@ -1,4 +1,5 @@
 from .models import Game, OwnedGame
+from django.core.paginator import Paginator
 
 class ViewUtility:
     @staticmethod
@@ -8,7 +9,7 @@ class ViewUtility:
         return '-' if direction.lower() == 'descending' else ''
 
     @staticmethod
-    def get_games_for_list(sort_field, direction, user, date=None):
+    def get_games_for_list(sort_field, direction, user, date=None, page_size=100):
         sort_field = sort_field if sort_field else 'release_date'
         direction = ViewUtility.get_direction(direction)
         games = Game.objects.order_by(direction + sort_field)
@@ -19,7 +20,7 @@ class ViewUtility:
             owned_game = owned_games.filter(game=game)
             if owned_game.exists():
                 game.owned = owned_game[0].id
-        return games
+        return Paginator(games, page_size)
     
     @staticmethod
     def get_sort_fields():
