@@ -1,6 +1,14 @@
-<h2>Edit Game Ownership</h2>
-<form method="post" action="{% url 'game_update' pk=form.instance.pk %}">
-  {% csrf_token %}
-  {{ form }}
-  <button type="submit" value="Submit">Save</button>
-</form>
+{% extends 'base.html' %}
+
+{% block title %}Edit Game Ownership{% endblock %}
+
+{% block content %}
+  <div class="section">
+    <h2 class="title">Edit Game Ownership</h2>
+    <form method="post" action="{% url 'game_update' pk=form.instance.pk %}">
+      {% csrf_token %}
+      {{ form }}
+      <button class="button is-primary" type="submit" value="Submit">Save</button>
+    </form>
+  </div>
+{% endblock %}

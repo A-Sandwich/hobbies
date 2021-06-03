@@ -23,6 +23,9 @@ class ObtainGameForm(ModelForm):
     class Meta:
         model = OwnedGame
         fields = ['game', 'console_platforms']
+        widgets = {
+            'game': forms.Select(attrs={'disabled': True}),
+        }
 
     def __init__(self, *args, **kwargs):
         # todo pass in the conole platforms so we aren't running a query in the forms class
