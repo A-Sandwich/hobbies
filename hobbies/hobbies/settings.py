@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django_simple_bulma',
     'accounts',
     'contentConsumed',
+    'portfolio',
 ]
 
 MIDDLEWARE = [
@@ -57,7 +58,9 @@ ROOT_URLCONF = 'hobbies.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [str(BASE_DIR.joinpath('templates')), str(BASE_DIR.joinpath('contentConsumed/templates/contentConsumed/'))],
+        'DIRS': [str(BASE_DIR.joinpath('templates')),
+                str(BASE_DIR.joinpath('contentConsumed/templates/contentConsumed/')),
+                str(BASE_DIR.joinpath('portfolio/templates/portfolio/'))],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
