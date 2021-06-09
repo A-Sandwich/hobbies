@@ -5,9 +5,6 @@ from .utilities import ViewUtility
 from django.contrib.auth.decorators import login_required
 from datetime import date
 
-def index(request):
-    return HttpResponse("Hello World!!")
-
 @login_required
 def all_games(request):
     field = None
