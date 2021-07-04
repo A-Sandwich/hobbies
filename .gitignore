@@ -128,4 +128,5 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-/hobbies/static/**
+/hobbies/staticfiles/**
+.DS_Store

@@ -24,9 +24,63 @@
             </div>
             <div class="column is-one-fifth-desktop">
                 <figure class="image is-128x128 container">
-                    <img class="is-rounded" src="{% static 'images/014.jpg' %}">
+                    <img class="is-rounded" src="{% static primary_image.image_path %}" alt="{{ primary_image.alt_text }}">
                 </figure>
             </div>
+        </div>
+    </section>
+    <section class="columns section">
+        <div class="column">
+            <article class="media">
+                <figure class="media-left">
+                <p class="image is-64x64">
+                    <img src="{% static programming_image.image_path %}" alt="{{ programming_image.alt_text }}">
+                </p>
+                </figure>
+                <div class="media-content">
+                <div class="content">
+                    <p>
+                    <strong>Programming</strong>
+                    <br>
+                    I'm a programmer who focuses on Web development. I'm most at home in Python, but you'll find me using C# quite a bit as well. When I'm not being paid to program I end up making games! I've made a few games in Godot and have really enjoyed it, you can check them out on my itch.io page!
+                    </p>
+                </div>
+                </div>
+            </article>
+            <article class="media">
+                <figure class="media-left">
+                <p class="image is-64x64">
+                    <img src="{% static food_image.image_path %}" alt="{{ food_image.alt_text }}">
+                </p>
+                </figure>
+                <div class="media-content">
+                <div class="content">
+                    <p>
+                    <strong>Food</strong>
+                    <br>
+                    I'm a longtime vegan and a newly started Kombucha brewer! I really enjoy trying new foods and developing my skill in the kitchen. 
+                    </p>
+                </div>
+                </div>
+            </article>
+            <article class="media">
+                <figure class="media-left">
+                <p class="image is-64x64">
+                    <img src="{% static other_image.image_path %}" alt="{{ other_image.alt_text }}">
+                </p>
+                </figure>
+                <div class="media-content">
+                <div class="content">
+                    <p>
+                    <strong>Other hobbies</strong>
+                    <br>
+                    Lifelong gamer here. I like most game geners but definitely have a soft spot for rouge likes, first person shooters, and spooky games :) My backlog is growing faster than my "completed" list which is my biggest problem with gaming.
+                    <br>
+                    When I'm not in front of a screen you'll probably see me on a run. Running is one of those hobbies that snuck up on me, where I initially just wanted to get in shape, but now I actually look forward to, and enjoy my time running. 
+                    </p>
+                </div>
+                </div>
+            </article>
         </div>
     </section>
 {% endblock %}
