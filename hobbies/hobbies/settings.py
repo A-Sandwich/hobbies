@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import django_heroku
+import dj_database_url
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -97,17 +98,20 @@ WSGI_APPLICATION = 'hobbies.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 # databse_url is used in heroku, and can be used locally but
 # I like being able to see the components locally so I have it both ways.
-database_url = os.environ.get('DATABASE_URL')
-DATABASES = database_url if database_url else {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'hobbies',
-        'USER': 'django',
-        'PASSWORD': 'cheese19',
-        'HOST': 'localhost',
-        'PORT': '5432',
+if os.environ.get('DATABASE_URL'):
+    DATABASES = {}
+    DATABASES['default'] = dj_database_url.config(conn_max_age=500)
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'hobbies',
+            'USER': 'django',
+            'PASSWORD': 'cheese19',
+            'HOST': 'localhost',
+            'PORT': '5432',
+        }
     }
-}
 
 
 # Password validation
