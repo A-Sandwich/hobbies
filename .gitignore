@@ -130,3 +130,4 @@ dmypy.json
 
 /hobbies/staticfiles/**
 .DS_Store
+.vscode
