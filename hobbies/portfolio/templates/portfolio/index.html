@@ -9,14 +9,18 @@
 {% block content %}
     <style>
         .hero.is-link{
+            background-color: {{ backgroundcolor }}
+        }
+        .colored-button{
             background-color: {{ backgroundcolor }};
+            color: white
         }
     </style>
     <section class="hero is-medium is-link">
-        <div class="hero-body columns">
+        <div class="hero-body columns is-multiline">
             <div class="column is-three-fifths">
-                <p class="title">
-                    Kyle Burkholder
+                <p class="title is-1">
+                    Kyle Burkholder (He/Him)
                 </p>
                 <p class="subtitle">
                     Programmer, Kombucha Brewer, Video Game Enjoyer, Cat Dad, Vegan
@@ -29,6 +33,36 @@
             </div>
         </div>
     </section>
+    <nav id="nav" class="navbar" role="navigation" aria-label="main navigation">
+        <div id="navbar" class="navbar-brand">
+            <div class="navbar-item"><!-- adds spacing I want --></div>
+            <a id="burger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="menu">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+        <div id="menu-items">
+            <div id="menu" class="navbar-menu">
+                <a class="navbar-item" href="https://a-sandwich.itch.io">
+                    itch.io
+                </a>
+                <a class="navbar-item" href="https://twitter.com/A_Sandwich">
+                    Twitter
+                </a>
+                <a class="navbar-item" href="https://GitHub.com/A-Sandwich">
+                    GitHub
+                </a>
+                <a class="navbar-item" href="https://linkedin.com/in/kyle-burkholder-9bb22613a/">
+                    LinkedIn
+                </a>
+            </div>
+            <div class="navbar-end">
+                <div class="navbar-item"></div>
+            </div>
+        </div>
+    </nav>
+    
     <section class="columns section">
         <div class="column">
             <article class="media">
@@ -42,7 +76,7 @@
                     <p>
                     <strong>Programming</strong>
                     <br>
-                    I'm a programmer who focuses on Web development. I'm most at home in Python, but you'll find me using C# quite a bit as well. When I'm not being paid to program I end up making games! I've made a few games in Godot and have really enjoyed it, you can check them out on my itch.io page!
+                    I'm a programmer who focuses on Web development. I'm most at home in Python, but you'll find me using C# quite a bit as well. When I'm not being paid to program I end up making games! I've made a few games in Godot and have really enjoyed it. You can check them out on my itch.io page!
                     </p>
                 </div>
                 </div>
@@ -58,7 +92,7 @@
                     <p>
                     <strong>Food</strong>
                     <br>
-                    I'm a longtime vegan and a newly started Kombucha brewer! I really enjoy trying new foods and developing my skill in the kitchen. 
+                    I'm a longtime vegan and recently started brewing Kombucha! I really enjoy trying new foods and developing my skills in the kitchen. 
                     </p>
                 </div>
                 </div>
@@ -74,9 +108,9 @@
                     <p>
                     <strong>Other hobbies</strong>
                     <br>
-                    Lifelong gamer here. I like most game geners but definitely have a soft spot for rouge likes, first person shooters, and spooky games :) My backlog is growing faster than my "completed" list which is my biggest problem with gaming.
+                    Lifelong gamer here. I like most game genres but definitely have a soft spot for roguelikes, first-person shooters, and spooky games. :) My backlog is growing faster than my "completed" list which is my biggest problem with gaming.
                     <br>
-                    When I'm not in front of a screen you'll probably see me on a run. Running is one of those hobbies that snuck up on me, where I initially just wanted to get in shape, but now I actually look forward to, and enjoy my time running. 
+                    When I'm not in front of a screen you'll probably see me on a run. Running is one of those hobbies that snuck up on me, where I initially just wanted to get in shape, but now I actually look forward to and enjoy my time running. 
                     </p>
                 </div>
                 </div>

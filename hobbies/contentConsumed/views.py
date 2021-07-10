@@ -25,7 +25,7 @@ def games_releasing_soon(request):
 def game_create(request):
     if request.method == 'POST':
         game_form = GameForm(request.POST)
-        game = game_form.save()
+        game_form.save()
         return redirect('games')
     return render(request, 'games/new.html', {'form': GameForm()})
 
@@ -58,7 +58,7 @@ def obtain_game(request):
 def console_platform_create(request):
     if request.method == 'POST':
         console_platform_form = ConsolePlatformForm(request.POST)
-        console = console_platform_form.save()
+        console_platform_form.save()
         return redirect('games')
     return render(request, 'console_platforms/new.html', {'form': ConsolePlatformForm()})
 

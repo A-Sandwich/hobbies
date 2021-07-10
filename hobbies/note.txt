@@ -1,5 +1,0 @@
-I need to do the following:
-* implement picture selection for sub categories
-* move color selection into helper method
-* clean up import statements
-* add staticfiles to gitignore

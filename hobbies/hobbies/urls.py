@@ -19,10 +19,11 @@ from django.views.generic.base import TemplateView
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
+    path('', include('portfolio.urls'), name='portfolio'),
     path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('', auth_views.LoginView.as_view(template_name='registration/login.html'), name='home'),
+    path('login/', auth_views.LoginView.as_view(template_name='registration/login.html'), name='home'),
     path('games/', include('contentConsumed.urls'), name='games'),
     path('portfolio/', include('portfolio.urls'), name='portfolio')
 ]

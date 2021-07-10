@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
+import django_heroku
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -21,12 +22,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'wn7j%%hj%z5i)(!i8ccv9#yetc2mzx=yv$i8@5a3-$y7tv%n&h'
+# You'll need to set this environment variable locally to anything, it just can't be empty.
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
+if (os.environ.get('ENVIRONMENT') and os.environ.get('ENVIRONMENT') == 'DEVELOPMENT'):
+    DEBUG = True
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1', 'https://www.beepboop.info/', 'pure-reaches-67514.herokuapp.com']
 
 
 # Application definition
@@ -82,8 +86,10 @@ WSGI_APPLICATION = 'hobbies.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-
-DATABASES = {
+# databse_url is used in heroku, and can be used locally but
+# I like being able to see the components locally so I have it both ways.
+database_url = os.environ.get('DATABASE_URL') 
+DATABASES = database_url if database_url else {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'hobbies',
@@ -91,7 +97,6 @@ DATABASES = {
         'PASSWORD': 'cheese19',
         'HOST': 'localhost',
         'PORT': '5432',
-
     }
 }
 
@@ -141,6 +146,10 @@ STATICFILES_FINDERS = [
   'django_simple_bulma.finders.SimpleBulmaFinder',
 ]
 
+# Custom settings for django-simple-bulma
+BULMA_SETTINGS={"extensions":["bulma-navbar-burger"]}
+
+
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 
@@ -155,3 +164,5 @@ LOGOUT_REDIRECT_URL = 'home'
 
 EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
 EMAIL_FILE_PATH = str(BASE_DIR.joinpath('sent_emails'))
+
+django_heroku.settings(locals())

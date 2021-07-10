@@ -6,6 +6,8 @@
     {% load django_simple_bulma %}
     {% bulma %}
     {% font_awesome %}
+    {% load static %}
+    <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
 </head>
 <body>
   {% block header %}
