@@ -22,14 +22,21 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# You'll need to set this environment variable locally to anything, it just can't be empty.
+# You'll need to set this environment variable locally to anything,
+# it just can't be empty.
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-if (os.environ.get('ENVIRONMENT') and os.environ.get('ENVIRONMENT') == 'DEVELOPMENT'):
+if (os.environ.get('ENVIRONMENT') == 'DEVELOPMENT'):
     DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1', 'https://www.beepboop.info/', 'pure-reaches-67514.herokuapp.com']
+ALLOWED_HOSTS = [
+                    '0.0.0.0',
+                    'localhost',
+                    '127.0.0.1',
+                    'https://www.beepboop.info/',
+                    'pure-reaches-67514.herokuapp.com'
+                ]
 
 
 # Application definition
@@ -65,9 +72,12 @@ ROOT_URLCONF = 'hobbies.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [str(BASE_DIR.joinpath('templates')),
-                str(BASE_DIR.joinpath('contentConsumed/templates/contentConsumed/')),
-                str(BASE_DIR.joinpath('portfolio/templates/portfolio/'))],
+        'DIRS': [
+                    str(BASE_DIR.joinpath('templates')),
+                    str(BASE_DIR.joinpath(
+                        'contentConsumed/templates/contentConsumed/')),
+                    str(BASE_DIR.joinpath('portfolio/templates/portfolio/'))
+                ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -87,7 +97,7 @@ WSGI_APPLICATION = 'hobbies.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 # databse_url is used in heroku, and can be used locally but
 # I like being able to see the components locally so I have it both ways.
-database_url = os.environ.get('DATABASE_URL') 
+database_url = os.environ.get('DATABASE_URL')
 DATABASES = database_url if database_url else {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -105,16 +115,20 @@ DATABASES = database_url if database_url else {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME': 'django.contrib.auth.password_validation.' +
+                'UserAttributeSimilarityValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'NAME': 'django.contrib.auth.password_validation.' +
+                'MinimumLengthValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        'NAME': 'django.contrib.auth.password_validation.' +
+                'CommonPasswordValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME': 'django.contrib.auth.password_validation.' +
+                'NumericPasswordValidator',
     },
 ]
 
@@ -135,7 +149,7 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
-#STATIC_ROOT = str(BASE_DIR.joinpath('static'))
+# STATIC_ROOT = str(BASE_DIR.joinpath('static'))
 STATICFILES_FINDERS = [
   # First add the two default Finders, since this will overwrite the default.
   'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -146,7 +160,7 @@ STATICFILES_FINDERS = [
 ]
 
 # Custom settings for django-simple-bulma
-BULMA_SETTINGS={"extensions":["bulma-navbar-burger"]}
+BULMA_SETTINGS = {"extensions": ["bulma-navbar-burger"]}
 
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
