@@ -4,3 +4,5 @@ django-simple-bulma
 whitenoise
 gunicorn
 django-heroku
+garminconnect
+python-dateutil
