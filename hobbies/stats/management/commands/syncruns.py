@@ -43,7 +43,6 @@ class Command(BaseCommand):
         print("Authenticating...")
         email = os.environ.get('GARMIN_EMAIL')
         password = os.environ.get('GARMIN_PASSWORD')
-        print("email", email)
         try:
             client = Garmin(email, password)
             client.login()
