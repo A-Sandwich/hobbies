@@ -14,7 +14,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         print("Syncing running data 👟")
         client = self.authenticate_with_retry(10)
-        activities = self.get_activities(client, 300)
+        activities = self.get_activities(client, 50)
         activityData = self.load_from_db()
         activityData = self.get_totals(activities, activityData)
         activityData.save()
@@ -113,7 +113,6 @@ class ActivityData:
         if not parsedActivity: # we return None if the activity is not a run or a walk
             return
 
-        print(activity["startTimeLocal"])
         if not parsedActivity.last_activity or parsedActivity.last_activity.replace(tzinfo=None) < parser.parse(activity["startTimeLocal"]):
             parsedActivity.last_activity = parser.parse(activity["startTimeLocal"])
             parsedActivity.distance += activity["distance"]
