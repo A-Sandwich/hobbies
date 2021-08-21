@@ -113,7 +113,8 @@ class ActivityData:
         if not parsedActivity: # we return None if the activity is not a run or a walk
             return
 
-        if not parsedActivity.last_activity or parsedActivity.last_activity.replace(tzinfo=None) < parser.parse(activity["startTimeLocal"]):
+        if (not parsedActivity.last_activity or
+            parsedActivity.last_activity.replace(tzinfo=None) < parser.parse(activity["startTimeLocal"]).replace(tzinfo=None)):
             parsedActivity.last_activity = parser.parse(activity["startTimeLocal"])
             parsedActivity.distance += activity["distance"]
             parsedActivity.calories += activity["calories"]
