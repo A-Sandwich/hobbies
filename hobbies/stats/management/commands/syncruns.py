@@ -1,11 +1,12 @@
 from django.core.management.base import BaseCommand, CommandError
 from garminconnect import Garmin, GarminConnectConnectionError, GarminConnectTooManyRequestsError, GarminConnectAuthenticationError
-from datetime import date
+from datetime import date, tzinfo
 from dateutil import parser
 import os
 import logging
 import json
 import time
+from stats.models import ExerciseTotal
 
 class Command(BaseCommand):
     help = 'Syncs running data'
@@ -14,8 +15,9 @@ class Command(BaseCommand):
         print("Running command ☄️")
         client = self.authenticate_with_retry(5)
         activities = self.get_activities(client, 10)
-        activityData = ActivityData()
+        activityData = self.load_from_db()
         activityData = self.get_totals(activities, activityData)
+        activityData.save()
         activityData.log()
         print("Exiting")
     
@@ -30,6 +32,7 @@ class Command(BaseCommand):
         return client
     
     def get_totals(self, activities, activityData):
+        activities.reverse()
         current_year = date.today().year
         for activity in activities:
             activityData.parse_activity(activity, current_year)
@@ -40,6 +43,7 @@ class Command(BaseCommand):
         print("Authenticating...")
         email = os.environ.get('GARMIN_EMAIL')
         password = os.environ.get('GARMIN_PASSWORD')
+        print("email", email)
         try:
             client = Garmin(email, password)
             client.login()
@@ -70,28 +74,34 @@ class Command(BaseCommand):
             print("Unknown error occurred during Garmin Connect Client get activities")
             quit()
 
-class ActivityDatum:
-    duration = 0
-    distance = 0
-    calories = 0
-    activity_type = ""
+    def load_from_db(self):
+        running_datum, _ = ExerciseTotal.objects.get_or_create(
+            year = str(date.today().year),
+            exercise_type = "running",
+            defaults={
+                "year": str(date.today().year),
+                "exercise_type": "running"
+            },
+        )
+        walking_datum, _ = ExerciseTotal.objects.get_or_create(
+            year = str(date.today().year),
+            exercise_type = "walking",
+            defaults={
+                "year": str(date.today().year),
+                "exercise_type": "walking"
+            },
+        )
 
-    def __init__(self, activity_type):
-        self.activity_type = activity_type
-
-    def log(self):
-        print("You went", self.get_miles(),"miles while", self.activity_type, "for", self.get_hours(), "hours and burnt", self.calories, "calrories.")
-    
-    def get_miles(self):
-        return self.distance / 1609.344
-    
-    def get_hours(self):
-        return self.duration / 360.0
+        return ActivityData(running_datum, walking_datum)
 
 class ActivityData:
-    running = ActivityDatum("running")
-    walking = ActivityDatum("walking")
+    running = None
+    walking = None
     newest_activity_id = None
+
+    def __init__(self, running_datum, walking_datum):
+        self.running = running_datum
+        self.walking = walking_datum
 
     def parse_activity(self, activity, year):
         self.parse_activity_id(activity["activityId"])
@@ -100,10 +110,13 @@ class ActivityData:
         if year != startTimeLocal.year:
             return
         parsedActivity = self.get_activity_by_type(activity_type)
+        if not parsedActivity.last_activity or parsedActivity.last_activity.replace(tzinfo=None) < parser.parse(activity["startTimeLocal"]):
+            parsedActivity.last_activity = parser.parse(activity["startTimeLocal"])
+            parsedActivity.distance += activity["distance"]
+            parsedActivity.calories += activity["calories"]
+            parsedActivity.duration += activity["duration"]
 
-        parsedActivity.distance += activity["distance"]
-        parsedActivity.calories += activity["calories"]
-        parsedActivity.duration += activity["duration"]
+        
     
     def get_activity_by_type(self, activity_type):
         if activity_type == "running":
@@ -119,4 +132,9 @@ class ActivityData:
     def log(self):
         self.running.log()
         self.walking.log()
+    
+    def save(self):
+        self.running.save()
+        self.walking.save()
+
 
