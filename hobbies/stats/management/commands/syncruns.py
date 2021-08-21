@@ -16,6 +16,7 @@ class Command(BaseCommand):
         client = self.authenticate_with_retry(10)
         activities = self.get_activities(client, 50)
         activityData = self.load_from_db()
+        print("🤓 Parsing activities")
         activityData = self.get_totals(activities, activityData)
         activityData.save()
         print("👋🏻 Exiting")
@@ -138,6 +139,7 @@ class ActivityData:
         self.walking.log()
     
     def save(self):
+        print("💾 Saving activities")
         self.running.save()
         self.walking.save()
 
