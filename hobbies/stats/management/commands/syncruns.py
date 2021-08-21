@@ -60,7 +60,6 @@ class Command(BaseCommand):
     def get_activities(self, client, limit):
         try:
             activities = client.get_activities(0,limit) # 0=start, 1=limit
-            print(activities)
             return activities
         except (
             GarminConnectConnectionError,
