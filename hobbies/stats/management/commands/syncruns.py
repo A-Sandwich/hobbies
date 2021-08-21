@@ -12,14 +12,13 @@ class Command(BaseCommand):
     help = 'Syncs running data'
 
     def handle(self, *args, **options):
-        print("Running command ☄️")
-        client = self.authenticate_with_retry(5)
+        print("Syncing running data 👟")
+        client = self.authenticate_with_retry(10)
         activities = self.get_activities(client, 300)
         activityData = self.load_from_db()
         activityData = self.get_totals(activities, activityData)
         activityData.save()
-        activityData.log()
-        print("Exiting")
+        print("👋🏻 Exiting")
     
     def authenticate_with_retry(self, retryLimit):
         retries = 0
@@ -27,7 +26,7 @@ class Command(BaseCommand):
         while not client and retries <= retryLimit:
             time.sleep(0.5)
             retries += 1
-            print("retrying attampt", retries)
+            print("🔁 retrying attempt", retries)
             client = self.authenticate_garmin()
         return client
     
@@ -40,9 +39,11 @@ class Command(BaseCommand):
         return activityData
     
     def authenticate_garmin(self):
-        print("Authenticating...")
+        print("🔐 Authenticating...")
         email = os.environ.get('GARMIN_EMAIL')
         password = os.environ.get('GARMIN_PASSWORD')
+        if not email or not password:
+            raise ValueError("☠️ No credentials provided ☠️")
         try:
             client = Garmin(email, password)
             client.login()
@@ -52,9 +53,9 @@ class Command(BaseCommand):
             GarminConnectAuthenticationError,
             GarminConnectTooManyRequestsError,
         ) as err:
-            print("Error occurred during Garmin Connect Client init or login: %s" % err)
+            print("💥 Error occurred during Garmin Connect Client init or login: %s" % err)
         except Exception:  # pylint: disable=broad-except
-            print("Unknown error occurred during Garmin Connect Client init or login")
+            print("💥 Unknown error occurred during Garmin Connect Client init or login")
         return None
 
     def get_activities(self, client, limit):
@@ -66,10 +67,10 @@ class Command(BaseCommand):
             GarminConnectAuthenticationError,
             GarminConnectTooManyRequestsError,
         ) as err:
-            print("Error occurred during Garmin Connect Client get activities: %s" % err)
+            print("💥 Error occurred during Garmin Connect Client get activities: %s" % err)
             quit()
         except Exception:  # pylint: disable=broad-except
-            print("Unknown error occurred during Garmin Connect Client get activities")
+            print("💥 Unknown error occurred during Garmin Connect Client get activities")
             quit()
 
     def load_from_db(self):
