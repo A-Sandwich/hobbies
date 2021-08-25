@@ -10,13 +10,13 @@ class ExerciseTotal(models.Model):
     
     def __str__(self):
         return("You went " +
-        str(self.get_miles()) +
+        str(round(self.get_miles())) +
         " miles while " +
         self.exercise_type +
         " for " +
-        str(self.get_hours()) +
+        str(round(self.get_hours())) +
         " hours and burnt " +
-        str(self.calories) +
+        str(round(self.calories)) +
         " calrories in the year " +
         self.year)
     
