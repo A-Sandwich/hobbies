@@ -8,16 +8,17 @@ class ExerciseTotal(models.Model):
     year = models.CharField(max_length=4)
     last_activity = models.DateTimeField(null=True)
     
-    def log(self):
-        print("You went",
-        self.get_miles(),
-        "miles while",
-        self.exercise_type,
-        "for",
-        self.get_hours(),
-        "hours and burnt",
-        self.calories,
-        "calrories.")
+    def __str__(self):
+        return("You went " +
+        str(round(self.get_miles())) +
+        " miles while " +
+        self.exercise_type +
+        " for " +
+        str(round(self.get_hours())) +
+        " hours and burnt " +
+        str(round(self.calories)) +
+        " calrories in the year " +
+        self.year)
     
     def get_miles(self):
         return self.distance / 1609.344
